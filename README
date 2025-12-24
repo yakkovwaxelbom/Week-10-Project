@@ -1,0 +1,70 @@
+# FastAPI Contacts Server
+
+This is a FastAPI server that provides a simple API for managing contacts (users) using a MySQL database.
+
+## General Description
+
+The server exposes 4 endpoints and works with a MySQL database.  
+Each component runs in a separate Docker container.
+
+FastAPI runs locally on port 8000  
+MySQL runs locally on port 3306
+
+---
+
+## Endpoints
+
+1. GET  
+   http://localhost:8000/contacts  
+   Returns a list of all users
+
+2. POST  
+   http://localhost:8000/contacts  
+   Creates a new user
+
+3. DELETE  
+   http://localhost:8000/contacts/{id}  
+   Deletes a user by id
+
+4. UPDATE  
+   http://localhost:8000/contacts/{id}  
+   Updates a user by id
+
+---
+
+## User Structure (Input)
+
+When creating a user, the following fields are required:
+
+- first_name  
+- last_name  
+- phone_number  
+
+After the user is inserted into the database, an id is automatically generated and assigned.
+
+---
+
+## Database
+
+- The database used is MySQL  
+- All data is stored in the database  
+- Each user has a unique id generated automatically
+
+---
+
+## Docker
+
+- The FastAPI server runs in its own Docker container  
+- The MySQL database runs in a separate Docker container  
+- Port mapping:
+  - FastAPI: 8000:8000
+  - MySQL: 3306:3306
+
+---
+
+## Usage
+
+1. Clone the project from GitHub  
+2. Run the following command:
+
+docker compose up
