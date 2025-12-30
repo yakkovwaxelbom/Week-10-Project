@@ -19,6 +19,15 @@ def get_connector():
         connector = connector_module.MySqlConnector(db_config, pool_name='', pull_size=5
         )
 
+    elif db_type == "mongo":
+
+        host = os.getenv('DB_HOST')
+        port = int(os.getenv('DB_PORT'))
+        database = os.getenv('DB_NAME')
+
+        connector_module = import_module("db.connectors.mongo")
+        connector = connector_module.MongoConnector(host, port, database)
+
     else:
         raise ValueError(f"Unsupported DB_TYPE: {db_type}")
 
