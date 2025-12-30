@@ -1,8 +1,10 @@
 from models.users import UserIn, UserOut
 
+
 class MySqlUserRepo:
     def __init__(self, connector):
         self.__connector = connector
+
 
     def create(self, user :UserIn):
         query = "INSERT INTO users (first_name, last_name, phone_number) " \
@@ -18,7 +20,7 @@ class MySqlUserRepo:
 
             return cursor.lastrowid
 
-    
+
     def get_all(self):
         query = "SELECT * FROM users;" 
 
@@ -29,6 +31,7 @@ class MySqlUserRepo:
 
             return [UserOut(**row) for row in all_rows]
         
+
     def delete(self, id):
         query = "DELETE FROM users WHERE id = %s;" 
 

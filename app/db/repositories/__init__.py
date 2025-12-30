@@ -12,6 +12,11 @@ def get_repositories(connector):
     if db_type == "mysql":
         repositories_module = import_module("db.repositories.mysql.users")
         repositories.users = repositories_module.MySqlUserRepo(connector)
+
+    elif db_type == "mongo":
+        repositories_module = import_module("db.repositories.mongo.users")
+        repositories.users = repositories_module.RepoUserMongo(connector)
+
     else:
         raise ValueError(f"Unsupported DB_TYPE: {db_type}")
 

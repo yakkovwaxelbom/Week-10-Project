@@ -16,4 +16,4 @@ class UserIn(BaseModel):
     
 
 class UserOut(UserIn):
-    id: int 
+    id: int | str
