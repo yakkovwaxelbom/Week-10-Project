@@ -33,7 +33,7 @@ kubectl apply -f .
 
 To access the API service, run:
 
-minikube service api-service
+minikube service --all
 
 You can verify that everything is running correctly by checking the pods, services, and logs:
 
