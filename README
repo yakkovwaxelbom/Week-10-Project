@@ -1,70 +1,44 @@
 # FastAPI Contacts Server
 
-This is a FastAPI server that provides a simple API for managing contacts (users) using a MySQL database.
+FastAPI Contacts Server is a REST API built with FastAPI for managing contacts (users) using a MySQL database. The project is fully containerized and can be run either with Docker Compose for local development or with Kubernetes (Minikube) for a cluster-based environment.
 
-## General Description
+The API exposes CRUD endpoints for managing contacts.  
+GET /contacts returns all contacts.  
+POST /contacts creates a new contact.  
+PUT /contacts/{id} updates an existing contact.  
+DELETE /contacts/{id} deletes a contact.
 
-The server exposes 4 endpoints and works with a MySQL database.  
-Each component runs in a separate Docker container.
+When creating a contact, the required fields are first_name, last_name, and phone_number. Each contact is stored in a MySQL database and receives an auto-generated id.
 
-FastAPI runs locally on port 8000  
-MySQL runs locally on port 3306
+The database used is MySQL and runs on port 3306. All data is stored persistently inside the database container or Kubernetes pod.
 
----
+To run the project using Docker Compose, make sure Docker and Docker Compose are installed. Clone the repository, navigate to the project root directory where the docker-compose.yml file is located, and run:
 
-## Endpoints
+docker compose up --build
 
-1. GET  
-   http://localhost:8000/contacts  
-   Returns a list of all users
+After the services start, the FastAPI server will be available at http://localhost:8000 and the MySQL database will be available on port 3306.
 
-2. POST  
-   http://localhost:8000/contacts  
-   Creates a new user
+To run the project using Kubernetes with Minikube, make sure Docker, kubectl, Minikube, and a Docker Hub account are available. First, build and push the Docker image from the directory containing the Dockerfile:
 
-3. DELETE  
-   http://localhost:8000/contacts/{id}  
-   Deletes a user by id
+docker build -t <dockerhub-username>/apiserver:v1 .
+docker push <dockerhub-username>/apiserver:v1
 
-4. UPDATE  
-   http://localhost:8000/contacts/{id}  
-   Updates a user by id
+Then start Minikube:
 
----
+minikube start
 
-## User Structure (Input)
+From the directory containing the Kubernetes Pods and Services YAML files k8s, deploy the resources:
 
-When creating a user, the following fields are required:
+kubectl apply -f .
 
-- first_name  
-- last_name  
-- phone_number  
+To access the API service, run:
 
-After the user is inserted into the database, an id is automatically generated and assigned.
+minikube service api-service
 
----
+You can verify that everything is running correctly by checking the pods, services, and logs:
 
-## Database
+kubectl get pods  
+kubectl get svc  
+kubectl logs api
 
-- The database used is MySQL  
-- All data is stored in the database  
-- Each user has a unique id generated automatically
-
----
-
-## Docker
-
-- The FastAPI server runs in its own Docker container  
-- The MySQL database runs in a separate Docker container  
-- Port mapping:
-  - FastAPI: 8000:8000
-  - MySQL: 3306:3306
-
----
-
-## Usage
-
-1. Clone the project from GitHub  
-2. Run the following command:
-
-docker compose up
+Docker Compose is recommended for local development, while Kubernetes with Minikube is recommended for learning and production-like environments. Both setups use the same Docker image and application code.
