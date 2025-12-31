@@ -1,6 +1,5 @@
 from pydantic import BaseModel, field_validator
 
-
 class UserIn(BaseModel):
     first_name: str
     last_name: str
@@ -8,12 +7,26 @@ class UserIn(BaseModel):
 
     @field_validator('phone_number')
     @classmethod
-    def validate_email_format(cls, v: str) -> str:
+    def validate_phone_length(cls, v: str) -> str:
+        if len(v) > 50:
+            raise ValueError("phone_number too long, max 50 characters")
         return v
     
-    def to_dict(self):
-        return self.model_dump()
+
+    @field_validator('last_name')
+    @classmethod
+    def validate_last_name(cls, v: str) -> str:
+        if len(v) > 20:
+            raise ValueError("last_name too long, max 20 characters")
+        return v
     
+    @field_validator('first_name')
+    @classmethod
+    def validate_first_name(cls, v: str) -> str:
+        if len(v) > 20:
+            raise ValueError("first_name too long, max 20 characters")
+        return v
+
 
 class UserOut(UserIn):
     id: int | str

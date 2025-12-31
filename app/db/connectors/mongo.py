@@ -36,6 +36,7 @@ class MongoConnector:
             raise MongoConnectionError(
                 "Unexpected MongoDB error during connection"
             ) from e
+        
 
     @contextmanager
     def get_connector(self):

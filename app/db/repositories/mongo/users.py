@@ -8,6 +8,10 @@ class RepoUserMongo:
 
     def __init__(self, connector):
         self.connector = connector
+
+        with self.connector.get_connector() as db:
+            db.users.create_index("phone_number", unique=True)
+
         
 
     def get_all(self):
